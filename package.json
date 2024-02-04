@@ -1,0 +1,24 @@
+{
+  "name": "node-nodejs-file-manager",
+  "version": "1.0.0",
+  "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pavel151194/node-nodejs-file-manager"
+  },
+  "keywords": [
+    "nodejs",
+    "assignments",
+    "Pavel151194"
+  ],
+  "author": "Pavel Zhbankov",
+  "license": "ISC",
+  "homepage": "https://github.com/Pavel151194/node-nodejs-file-manager#readme"
+}
