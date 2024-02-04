@@ -1,5 +1,5 @@
 import { userInfo } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 
 export const getUserName = () => {
   const userNameArg = process.argv.find((arg) => arg.includes("--username"));
