@@ -8,7 +8,7 @@ import { resolvePath } from "../utils/index.js";
 const cat = async (source) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readStream = createReadStream(resolvePath(process.cwd(), source));
+  const readStream = createReadStream(resolvePath(source));
 
   try {
     readStream.pipe(process.stdout);
@@ -24,7 +24,7 @@ const add = async (fileName) => {
   if (!fileName) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
   try {
-    await writeFile(resolvePath(process.cwd(), fileName), "", { flag: "wx" });
+    await writeFile(resolvePath(fileName), "", { flag: "wx" });
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }
@@ -34,7 +34,7 @@ const rm = async (source) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
   try {
-    await removeFile(resolvePath(process.cwd(), source));
+    await removeFile(resolvePath(source));
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }
@@ -43,8 +43,10 @@ const rm = async (source) => {
 const rn = async (source, newFileName) => {
   if (!source || !newFileName) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
+  const { dir } = parse(source);
+
   try {
-    await rename(resolvePath(process.cwd(), source), resolvePath(process.cwd(), newFileName));
+    await rename(resolvePath(source), resolvePath(dir, newFileName));
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }
@@ -53,10 +55,10 @@ const rn = async (source, newFileName) => {
 const cp = async (source, destination) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolvePath(process.cwd(), source);
+  const readPath = resolvePath(source);
   const { dir, ext, name } = parse(readPath);
 
-  const writePath = resolvePath(process.cwd(), destination || dir, `${name}_copy${ext}`);
+  const writePath = resolvePath(destination || dir, `${name}_copy${ext}`);
 
   const readStream = createReadStream(readPath);
   const writeStream = createWriteStream(writePath, { flags: "wx" });
@@ -78,8 +80,8 @@ const cp = async (source, destination) => {
 const mv = async (source, destination) => {
   if (!source || !destination) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolvePath(process.cwd(), source);
-  const writePath = resolvePath(process.cwd(), destination, basename(readPath));
+  const readPath = resolvePath(source);
+  const writePath = resolvePath(destination, basename(readPath));
 
   const readStream = createReadStream(readPath);
   const writeStream = createWriteStream(writePath, { flags: "wx" });

@@ -9,10 +9,10 @@ import fs from "../fs/index.js";
 const compress = async (source, destination) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolvePath(process.cwd(), source);
+  const readPath = resolvePath(source);
   const { dir, ext, name } = parse(readPath);
 
-  const writePath = resolvePath(process.cwd(), destination || dir, `${name}${ext}${BROTLI_EXTNAME}`);
+  const writePath = resolvePath(destination || dir, `${name}${ext}${BROTLI_EXTNAME}`);
 
   const readStream = createReadStream(readPath);
   const compressStream = createBrotliCompress();
@@ -36,12 +36,12 @@ const compress = async (source, destination) => {
 const decompress = async (source, destination) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolvePath(process.cwd(), source);
+  const readPath = resolvePath(source);
   const { dir, ext, name } = parse(readPath);
 
   if (ext !== BROTLI_EXTNAME) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const writePath = resolvePath(process.cwd(), destination || dir, name);
+  const writePath = resolvePath(destination || dir, name);
 
   if (!extname(writePath)) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 

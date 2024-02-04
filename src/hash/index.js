@@ -7,7 +7,7 @@ import { resolvePath } from "../utils/index.js";
 const hash = async (source) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readStream = createReadStream(resolvePath(process.cwd(), source));
+  const readStream = createReadStream(resolvePath(source));
   const hashStream = createHash("sha256");
 
   try {

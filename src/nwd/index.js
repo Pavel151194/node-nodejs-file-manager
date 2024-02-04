@@ -6,7 +6,7 @@ const cd = async (path) => {
   if (!path) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
   try {
-    process.chdir(resolvePath(process.cwd(), path));
+    process.chdir(resolvePath(path));
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }
