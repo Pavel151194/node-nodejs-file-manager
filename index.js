@@ -4,6 +4,7 @@ import {
   CURRENT_DIR_MESSAGE,
   EXIT_MESSAGE,
   INVALID_INPUT_ERROR_MESSAGE,
+  MATCH_COMMAND_LINE_PATTERN,
   WELCOME_MESSAGE,
 } from "./src/constants/index.js";
 import { getUserName, stringInject } from "./src/utils/index.js";
@@ -24,7 +25,7 @@ process.stdout.write(stringInject(WELCOME_MESSAGE, [userName]));
 process.stdout.write(stringInject(CURRENT_DIR_MESSAGE, [process.cwd()]));
 
 const execute = async (line) => {
-  const [command, ...args] = line.trim().split(" ");
+  const [command, ...args] = line.trim().match(MATCH_COMMAND_LINE_PATTERN);
 
   if (!controller.hasOwnProperty(command)) {
     process.stderr.write(INVALID_INPUT_ERROR_MESSAGE);

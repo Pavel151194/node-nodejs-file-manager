@@ -1,17 +1,18 @@
 import { createReadStream, createWriteStream } from "node:fs";
-import { extname, parse, resolve } from "node:path";
+import { extname, parse } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createBrotliCompress, createBrotliDecompress } from "node:zlib";
 import { BROTLI_EXTNAME, INVALID_INPUT_ERROR_MESSAGE, OPERATION_FAILED_ERROR_MESSAGE } from "../constants/index.js";
+import { resolvePath } from "../utils/index.js";
 import fs from "../fs/index.js";
 
 const compress = async (source, destination) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolve(process.cwd(), source);
+  const readPath = resolvePath(process.cwd(), source);
   const { dir, ext, name } = parse(readPath);
 
-  const writePath = resolve(process.cwd(), destination || dir, `${name}${ext}${BROTLI_EXTNAME}`);
+  const writePath = resolvePath(process.cwd(), destination || dir, `${name}${ext}${BROTLI_EXTNAME}`);
 
   const readStream = createReadStream(readPath);
   const compressStream = createBrotliCompress();
@@ -35,12 +36,12 @@ const compress = async (source, destination) => {
 const decompress = async (source, destination) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readPath = resolve(process.cwd(), source);
+  const readPath = resolvePath(process.cwd(), source);
   const { dir, ext, name } = parse(readPath);
 
   if (ext !== BROTLI_EXTNAME) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const writePath = resolve(process.cwd(), destination || dir, name);
+  const writePath = resolvePath(process.cwd(), destination || dir, name);
 
   if (!extname(writePath)) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 

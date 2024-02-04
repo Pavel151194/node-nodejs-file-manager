@@ -1,12 +1,12 @@
 import { readdir } from "node:fs/promises";
-import { resolve } from "node:path";
 import { INVALID_INPUT_ERROR_MESSAGE, OPERATION_FAILED_ERROR_MESSAGE, DirentType } from "../constants/index.js";
+import { resolvePath } from "../utils/index.js";
 
 const cd = async (path) => {
   if (!path) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
   try {
-    process.chdir(resolve(process.cwd(), path));
+    process.chdir(resolvePath(process.cwd(), path));
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }
@@ -31,7 +31,7 @@ const ls = async () => {
 
 const up = async () => {
   try {
-    process.chdir(resolve(process.cwd(), ".."));
+    process.chdir(resolvePath(process.cwd(), ".."));
   } catch {
     throw new Error(OPERATION_FAILED_ERROR_MESSAGE);
   }

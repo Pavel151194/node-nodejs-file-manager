@@ -1,13 +1,13 @@
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
-import { resolve } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { INVALID_INPUT_ERROR_MESSAGE, OPERATION_FAILED_ERROR_MESSAGE } from "../constants/index.js";
+import { resolvePath } from "../utils/index.js";
 
 const hash = async (source) => {
   if (!source) throw new Error(INVALID_INPUT_ERROR_MESSAGE);
 
-  const readStream = createReadStream(resolve(process.cwd(), source));
+  const readStream = createReadStream(resolvePath(process.cwd(), source));
   const hashStream = createHash("sha256");
 
   try {
